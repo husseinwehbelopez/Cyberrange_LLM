@@ -9,8 +9,8 @@ services:
     environment:
       - SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-splunk-com
       - SPLUNK_START_ARGS=--accept-license
-      - SPLUNK_PASSWORD=Chang3Me!
-      - SPLUNK_HEC_TOKEN=abcd1234
+      - SPLUNK_PASSWORD=${SPLUNK_PASSWORD}
+      - SPLUNK_HEC_TOKEN=${SPLUNK_HEC_TOKEN}
     ports:
       - "8000:8000"   # Splunk Web
       - "8088:8088"   # HEC
