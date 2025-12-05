@@ -24,7 +24,7 @@ services:
     container_name: vuln-llm
     environment:
       - SPLUNK_HEC_URL=http://splunk:8088/services/collector/event
-      - SPLUNK_HEC_TOKEN=abcd1234
+      - SPLUNK_HEC_TOKEN=${SPLUNK_HEC_TOKEN}
       - LLM_SYSTEM_PROMPT=You are an internal support assistant. Follow internal policy.
       - ALLOW_SYSTEM_OVERRIDE=true
     depends_on:
