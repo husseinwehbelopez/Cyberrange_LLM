@@ -1,6 +1,6 @@
 1) Changes in docker-compose.yml:
   - Set a password to log into Splunk in the ${SPLUNK_PASSWORD} value. Example: Chang3Me!
-  - Set a token value of your choice in the ${SPLUNK_HEC_TOKEN} value. Example: abcd1234
+  - Set a token value of your choice in the ${SPLUNK_HEC_TOKEN} value in all required fields. Example: abcd1234
 
 2) Bring up the stack and check status:
    - Run ```docker compose up -d``` as sudo.
@@ -97,5 +97,13 @@ For reference, the arq. is something like:
    - linux-victim → splunk: /var/log/atomic-tests.log via shared volume (linux_victim)
 
 
+**Important notes**:
 
+**linux-victim enables root SSH with password toor. Never publish this container’s SSH port to the internet or reuse these credentials anywhere else.**
+
+**This is a personal lab environment. Containers are deliberately misconfigured (e.g. vulnerable LLM, root SSH on linux-victim) for training purposes. Do not expose these services directly to the internet, and only run Atomic tests on systems you own and fully control.**
+
+**All credentials and tokens in the repo are examples only and must be replaced locally.**
+
+**Splunk listens only on the Docker host (localhost / lab network), and there is no external URL baked into the repo.**
    
