@@ -66,5 +66,36 @@ B. Scenario 2 – linux-victim runs Atomic tests (T1059.004) and logs to Splunk
       | table _time host _raw
       ```
 
+For reference, the arq. is something like:
+
+                         +---------------------------+
+                         |       Ubuntu Host         |
+                         |  (Docker, docker-compose) |
+                         +-------------+-------------+
+                                       |
+                                       | docker network: cybernet
+                                       v
+        +---------------------+      +---------------------+      +----------------------+
+        |      redteam        |      |      vuln-llm       |      |     linux-victim     |
+        |  (attacker box)     | ---> | FastAPI LLM app     |      | Linux host w/Atomic  |
+        |  pwsh + Atomic      |  HTTP| - vulnerable prompt |      | pwsh + Atomic        |
+        |  curl → /chat       |      |   handling          |      | /var/log + transcript |
+        +----------+----------+      +-----------+---------+      +-----------+----------+
+                   \                             |                           |
+                    \                            | HEC (HTTP)               |
+                     \                           v                           |
+                      \               +----------+-----------+               |
+                       \              |        splunk       |               |
+                        \------------>|  Splunk Enterprise  |<--------------/
+                                      |  - Web :8000        |
+                                      |  - HEC :8088        |
+                                      |  - monitor /mnt/    |
+                                      +---------------------+
+
+   - redteam → vuln-llm: prompt injection attempts over HTTP
+   - vuln-llm → splunk: JSON events via HEC (llm_app, labels=possible_prompt_injection)
+   - linux-victim → splunk: /var/log/atomic-tests.log via shared volume (linux_victim)
+
+
 
    
